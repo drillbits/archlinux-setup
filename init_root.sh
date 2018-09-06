@@ -3,7 +3,7 @@
 echo '>>> Install initial tools'
 set -x
 pacman -Syu
-pacman -Sy vim
+pacman -S vim
 { set +x; } 2>/dev/null
 
 echo '>>> Set timezone'
@@ -42,4 +42,21 @@ set -x
 useradd -m -g users -G wheel -s /bin/bash ${username}
 passwd ${username}
 echo '%wheel ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+{ set +x; } 2>/dev/null
+
+echo '>>> Setup X'
+set -x
+pacman -S xf86-video-intel
+pacman -S xorg-server xorg-apps
+{ set +x; } 2>/dev/null
+
+echo '>>> Setup display manager: GDM'
+set -x
+pacman -S gdm
+systemctl enable gdm.service
+{ set +x; } 2>/dev/null
+
+echo '>>> Setup desktop environment: GNOME'
+set -x
+pacman -S gnome gnome-extra
 { set +x; } 2>/dev/null
