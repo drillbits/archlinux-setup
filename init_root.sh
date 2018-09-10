@@ -58,5 +58,5 @@ systemctl enable gdm.service
 
 echo '>>> Setup desktop environment: GNOME'
 set -x
-pacman -S gnome gnome-extra
+pacman -S gnome gnome-extra network-manager-applet
 { set +x; } 2>/dev/null
