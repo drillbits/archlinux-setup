@@ -3,7 +3,7 @@
 echo '>>> Install initial tools'
 set -x
 pacman -Syu
-pacman -S vim
+pacman -S vim git ca-certificate
 { set +x; } 2>/dev/null
 
 echo '>>> Set timezone'
