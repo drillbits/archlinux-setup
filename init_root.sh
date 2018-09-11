@@ -65,14 +65,13 @@ pacman -S gnome gnome-extra network-manager-applet
 # set -x
 # { set +x; } 2>/dev/null
 
-echo '>>> Setup keyboard'
+echo '>>> Setup console keyboard'
 set -x
-# /etc/modprobe.d/hid_apple.conf
-# options hid_apple iso_layout=0
+# touch /etc/modprobe.d/hid_apple.conf
+# echo options hid_apple iso_layout=0 >> /etc/modprobe.d/hid_apple.conf
 mkdir -p /usr/local/share/kbd/keymaps
-touch /usr/local/share/kbd/keymaps/personal.map
+dumpkeys | head -1 | /usr/local/share/kbd/keymaps/personal.map
 echo keycode 58 = Control >> /usr/local/share/kbd/keymaps/personal.map
 loadkeys /usr/local/share/kbd/keymaps/personal.map
-# /etc/vconsole.conf
-# localectl set-keymap --no-convert /usr/local/share/kbd/keymaps/personal.map
+localectl set-keymap --no-convert /usr/local/share/kbd/keymaps/personal.map
 { set +x; } 2>/dev/null
