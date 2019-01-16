@@ -46,3 +46,17 @@ echo keycode 58 = Control >> /usr/local/share/kbd/keymaps/personal.map
 loadkeys /usr/local/share/kbd/keymaps/personal.map
 echo KEYMAP=/usr/local/share/kbd/keymaps/personal.map >> /etc/vconsole.conf
 { set +x; } 2>/dev/null
+
+echo '>>> Setup touchpad'
+set -x
+pacman -R xf86-input-synaptics
+pacman -S xf86-input-libinput xorg-xinput
+echo 'Section "InputClass"
+  Identifier "libinput touchpad catchall"
+  MatchIsTouchpad "on"
+  MatchDevicePath "/dev/input/event*"
+  Driver "libinput"
+  Option "NaturalScrolling" "true"
+  Option "ClickMethod" "buttonareas"
+EndSection' >> /etc/X11/xorg.conf.d/90-libinput.conf
+{ set +x; } 2>/dev/null
