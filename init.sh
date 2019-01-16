@@ -6,50 +6,6 @@ pacman -Syu
 pacman -S vim git ca-certificate
 { set +x; } 2>/dev/null
 
-echo '>>> Set timezone'
-set -x
-ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
-{ set +x; } 2>/dev/null
-
-echo '>>> Set hardware clock'
-set -x
-hwclock --systohc --utc
-{ set +x; } 2>/dev/null
-
-echo '>>> Set locale'
-set -x
-sed -i '/^#en_US.UTF-8 UTF-8/s/^#//' /etc/locale.gen
-sed -i '/^#ja_JP.UTF-8 UTF-8/s/^#//' /etc/locale.gen
-locale-gen
-echo LANG=en_US.UTF-8 > /etc/locale.conf
-{ set +x; } 2>/dev/null
-
-echo '>>> Set hostname'
-echo -n 'host name: '
-read hostname
-: ${hostname:="ciel"}
-set -x
-echo ${hostname} > /etc/hostname
-echo "127.0.1.1 ${hostname}.localdomain    ${hostname}" >> /etc/hosts
-{ set +x; } 2>/dev/null
-
-echo '>>> Setup network'
-set -x
-pacman -Sy iw wpa_supplicant
-pacman -S networkmanager
-systemctl enable NetworkManager
-{ set +x; } 2>/dev/null
-
-echo '>>> Initramfs'
-set -x
-mkinitcpio -p linux
-{ set +x; } 2>/dev/null
-
-echo '>>> Update Microcode'
-set -x
-pacman -S intel-ucode
-{ set +x; } 2>/dev/null
-
 echo '>>> Create user'
 echo -n 'user name: '
 read username
