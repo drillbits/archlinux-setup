@@ -30,8 +30,7 @@ read hostname
 : ${hostname:="ciel"}
 set -x
 echo ${hostname} > /etc/hostname
-# /etc/hosts
-# 127.0.1.1 ciel.localdomain ciel
+echo "127.0.1.1 ${hostname}.localdomain    ${hostname}" >> /etc/hosts
 { set +x; } 2>/dev/null
 
 echo '>>> Create user'
