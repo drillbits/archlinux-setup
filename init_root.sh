@@ -1,9 +1,17 @@
 #!/bin/bash
 
+echo -n 'host name: '
+read hostname
+: ${hostname:="ciel"}
+
+echo -n 'user name: '
+read username
+: ${username:="drillbits"}
+
 echo '>>> Install initial tools'
 set -x
-pacman -Syu
-pacman -S vim git ca-certificate
+pacman -Syu --noconfirm
+pacman -S --noconfirm vim git ca-certificate
 { set +x; } 2>/dev/null
 
 echo '>>> Set timezone'
@@ -25,9 +33,6 @@ echo LANG=en_US.UTF-8 > /etc/locale.conf
 { set +x; } 2>/dev/null
 
 echo '>>> Set hostname'
-echo -n 'host name: '
-read hostname
-: ${hostname:="ciel"}
 set -x
 echo ${hostname} > /etc/hostname
 echo "127.0.1.1 ${hostname}.localdomain    ${hostname}" >> /etc/hosts
@@ -35,8 +40,7 @@ echo "127.0.1.1 ${hostname}.localdomain    ${hostname}" >> /etc/hosts
 
 echo '>>> Setup network'
 set -x
-pacman -Sy iw wpa_supplicant
-pacman -S networkmanager
+pacman -S --noconfirm iw wpa_supplicant networkmanager
 systemctl enable NetworkManager
 { set +x; } 2>/dev/null
 
@@ -47,13 +51,10 @@ mkinitcpio -p linux
 
 echo '>>> Update Microcode'
 set -x
-pacman -S intel-ucode
+pacman -S --noconfirm intel-ucode
 { set +x; } 2>/dev/null
 
 echo '>>> Create user'
-echo -n 'user name: '
-read username
-: ${username:="drillbits"}
 set -x
 useradd -m -g users -G wheel -s /bin/bash ${username}
 passwd ${username}
@@ -62,19 +63,18 @@ echo '%wheel ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 
 echo '>>> Setup X'
 set -x
-pacman -S xf86-video-intel
-pacman -S xorg-server xorg-apps
+pacman -S --noconfirm xf86-video-intel xorg-server xorg-apps
 { set +x; } 2>/dev/null
 
 echo '>>> Setup display manager: GDM'
 set -x
-pacman -S gdm
+pacman -S --noconfirm gdm
 systemctl enable gdm.service
 { set +x; } 2>/dev/null
 
 echo '>>> Setup desktop environment: GNOME'
 set -x
-pacman -S gnome gnome-extra network-manager-applet
+pacman -S --noconfirm gnome gnome-extra network-manager-applet
 { set +x; } 2>/dev/null
 
 # echo '>>> Setup Window manager: '
@@ -89,4 +89,17 @@ dumpkeys | head -1 | tee /usr/local/share/kbd/keymaps/personal.map
 echo keycode 58 = Control >> /usr/local/share/kbd/keymaps/personal.map
 loadkeys /usr/local/share/kbd/keymaps/personal.map
 echo KEYMAP=/usr/local/share/kbd/keymaps/personal.map >> /etc/vconsole.conf
+{ set +x; } 2>/dev/null
+
+echo '>>> Setup touchpad'
+set -x
+pacman -S --noconfirm xf86-input-libinput xorg-xinput
+echo 'Section "InputClass"
+  Identifier "libinput touchpad catchall"
+  MatchIsTouchpad "on"
+  MatchDevicePath "/dev/input/event*"
+  Driver "libinput"
+  Option "NaturalScrolling" "true"
+  Option "ClickMethod" "buttonareas"
+EndSection' >> /etc/X11/xorg.conf.d/90-libinput.conf
 { set +x; } 2>/dev/null
