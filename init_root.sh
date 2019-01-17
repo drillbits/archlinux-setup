@@ -103,3 +103,8 @@ echo 'Section "InputClass"
   Option "ClickMethod" "buttonareas"
 EndSection' >> /etc/X11/xorg.conf.d/90-libinput.conf
 { set +x; } 2>/dev/null
+
+echo '>>> Setup Japanese font'
+set -x
+pacman -S --noconfirm otf-ipafont noto-fonts-cjk-otf adobe-source-han-serif-otc-fonts
+{ set +x; } 2>/dev/null
