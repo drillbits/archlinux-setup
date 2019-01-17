@@ -8,6 +8,13 @@ echo -n 'user name: '
 read username
 : ${username:="drillbits"}
 
+echo '>>> Create user'
+set -x
+useradd -m -g users -G wheel -s /bin/bash ${username}
+passwd ${username}
+echo '%wheel ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+{ set +x; } 2>/dev/null
+
 echo '>>> Install initial tools'
 set -x
 pacman -Syu --noconfirm
@@ -52,13 +59,6 @@ mkinitcpio -p linux
 echo '>>> Update Microcode'
 set -x
 pacman -S --noconfirm intel-ucode
-{ set +x; } 2>/dev/null
-
-echo '>>> Create user'
-set -x
-useradd -m -g users -G wheel -s /bin/bash ${username}
-passwd ${username}
-echo '%wheel ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 { set +x; } 2>/dev/null
 
 echo '>>> Setup X'
@@ -106,12 +106,9 @@ EndSection' >> /etc/X11/xorg.conf.d/90-libinput.conf
 
 echo '>>> Setup input method'
 set -x
-pacman -Rsn ibus ninja zinnia ibus-mozc mozc
-# delete values of preload-engines and version via dconf editor: desktop -> ibus -> general
 # delete values of sources via org -> gnome -> desktop -> input-sources
-gsettings set org.gnome.settings-daemon.plugins.keyboard active false
 gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "{'Gtk/IMModule':<'fcitx'>}"
-pacman -S fcitx fcitx-mozc fcitx-configtool fcitx-im fcitx-gtk2 fcitx-gtk3 fcitx-qt4 fcitx-qt5
+pacman -S --noconfirm fcitx fcitx-mozc fcitx-configtool fcitx-im fcitx-gtk2 fcitx-gtk3 fcitx-qt4 fcitx-qt5
 # echo 'export GTK_IM_MODULE=fcitx
 # export QT_IM_MODULE=fcitx
 # export XMODIFIERS=@im=fcitx
