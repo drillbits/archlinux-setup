@@ -104,6 +104,23 @@ echo 'Section "InputClass"
 EndSection' >> /etc/X11/xorg.conf.d/90-libinput.conf
 { set +x; } 2>/dev/null
 
+echo '>>> Setup input method'
+set -x
+pacman -Rsn ibus ninja zinnia ibus-mozc mozc
+# delete values of preload-engines and version via dconf editor: desktop -> ibus -> general
+# delete values of sources via org -> gnome -> desktop -> input-sources
+gsettings set org.gnome.settings-daemon.plugins.keyboard active false
+gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "{'Gtk/IMModule':<'fcitx'>}"
+pacman -S fcitx fcitx-mozc fcitx-configtool fcitx-im fcitx-gtk2 fcitx-gtk3 fcitx-qt4 fcitx-qt5
+# echo 'export GTK_IM_MODULE=fcitx
+# export QT_IM_MODULE=fcitx
+# export XMODIFIERS=@im=fcitx
+# export DefaultIMModule=fcitx' > ~/.xprofile
+echo 'export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx' >> /etc/environment
+{ set +x; } 2>/dev/null
+
 echo '>>> Setup Japanese font'
 set -x
 pacman -S --noconfirm otf-ipafont noto-fonts-cjk-otf adobe-source-han-serif-otc-fonts
