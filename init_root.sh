@@ -121,5 +121,5 @@ export XMODIFIERS=@im=fcitx' >> /etc/environment
 
 echo '>>> Setup Japanese font'
 set -x
-pacman -S --noconfirm otf-ipafont noto-fonts-cjk-otf adobe-source-han-serif-otc-fonts
+pacman -S --noconfirm otf-ipafont
 { set +x; } 2>/dev/null
