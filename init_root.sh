@@ -18,7 +18,8 @@ echo '%wheel ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 echo '>>> Install initial tools'
 set -x
 pacman -Syu --noconfirm
-pacman -S --noconfirm vim git ca-certificate
+pacman -S --noconfirm vim git ca-certificates
+# pacman -Qo /etc/ssl/certs/ca-certificates.crt
 { set +x; } 2>/dev/null
 
 echo '>>> Set timezone'
