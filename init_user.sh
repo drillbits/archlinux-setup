@@ -5,14 +5,13 @@ set -x
 mkdir ~/src ~/bin ~/pkg
 { set +x; } 2>/dev/null
 
-echo '>>> Setup pikaur'
+echo '>>> Setup yay'
 set -x
 mkdir ~/src/aur.archlinux.org
 cd ~/src/aur.archlinux.org
-git clone https://aur.archlinux.org/pikaur.git
-cd pikaur
-makepkg -fsri
-pikaur -Syu
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
 { set +x; } 2>/dev/null
 
 echo '>>> Setup fonts'
