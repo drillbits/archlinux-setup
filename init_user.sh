@@ -29,7 +29,7 @@ mkdir -p ~/src/github.com/golang
 cd ~/src/github.com/golang
 git clone https://github.com/golang/go.git
 cd go
-git checkout go1.11.4
+git checkout release-branch.go1.13
 cd src
 ./make.bash
 { set +x; } 2>/dev/null
