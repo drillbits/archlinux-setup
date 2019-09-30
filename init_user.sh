@@ -12,11 +12,12 @@ cd ~/src/aur.archlinux.org
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si
+cd ${HOME}
 { set +x; } 2>/dev/null
 
 echo '>>> Setup fonts'
 set -x
-pikaur -S --noconfirm noto-fonts-cjk-otf adobe-source-han-serif-otc-fonts
+yay -S --noconfirm noto-fonts-cjk-otf adobe-source-han-serif-otc-fonts
 { set +x; } 2>/dev/null
 
 echo '>>> Setup Go'
@@ -32,6 +33,7 @@ cd go
 git checkout release-branch.go1.13
 cd src
 ./make.bash
+cd ${HOME}
 { set +x; } 2>/dev/null
 
 echo '>>> Setup dotfiles'
@@ -40,4 +42,5 @@ cd ~/src/github.com/drillbits
 git clone git@github.com:drillbits/dotfiles.git
 cd dotfiles
 make
+cd ${HOME}
 { set +x; } 2>/dev/null
