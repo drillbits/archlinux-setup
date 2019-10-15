@@ -62,20 +62,27 @@ set -x
 pacman -S --noconfirm intel-ucode
 { set +x; } 2>/dev/null
 
+# use modesetting in xorg-server
+# echo '>>> Setup video driver'
+# set -x
+# pacman -S --noconfirm mesa xf86-video-intel
+# { set +x; } 2>/dev
+
 echo '>>> Setup X'
 set -x
-pacman -S --noconfirm xf86-video-intel xorg-server xorg-apps
+pacman -S --noconfirm xorg-server xorg-apps xterm
+# pacman -S xorg-xinit xorg-twm xorg-xclock
+{ set +x; } 2>/dev/null
+
+echo '>>> Setup desktop environment: GNOME'
+set -x
+pacman -S --noconfirm gnome gnome-extra network-manager-applet
 { set +x; } 2>/dev/null
 
 echo '>>> Setup display manager: GDM'
 set -x
 pacman -S --noconfirm gdm
 systemctl enable gdm.service
-{ set +x; } 2>/dev/null
-
-echo '>>> Setup desktop environment: GNOME'
-set -x
-pacman -S --noconfirm gnome gnome-extra network-manager-applet
 { set +x; } 2>/dev/null
 
 # echo '>>> Setup Window manager: '
