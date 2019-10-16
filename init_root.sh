@@ -70,8 +70,7 @@ pacman -S --noconfirm intel-ucode
 
 echo '>>> Setup X'
 set -x
-pacman -S --noconfirm xorg-server xorg-apps xterm
-# pacman -S xorg-xinit xorg-twm xorg-xclock
+pacman -S --noconfirm xorg-server xorg-apps xterm xorg-xinit xorg-twm xorg-xclock
 { set +x; } 2>/dev/null
 
 echo '>>> Setup desktop environment: GNOME'
@@ -82,7 +81,7 @@ pacman -S --noconfirm gnome gnome-extra network-manager-applet
 echo '>>> Setup display manager: GDM'
 set -x
 pacman -S --noconfirm gdm
-systemctl enable gdm.service
+# systemctl enable gdm.service
 { set +x; } 2>/dev/null
 
 # echo '>>> Setup Window manager: '
