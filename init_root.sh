@@ -54,7 +54,7 @@ systemctl enable NetworkManager
 
 echo '>>> Initramfs'
 set -x
-mkinitcpio -p linux
+mkinitcpio -P
 { set +x; } 2>/dev/null
 
 echo '>>> Update Microcode'
