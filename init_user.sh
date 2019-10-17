@@ -13,6 +13,7 @@ git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si
 cd ${HOME}
+yay -S systemd-boot-pacman-hook
 { set +x; } 2>/dev/null
 
 echo '>>> Setup fonts'
