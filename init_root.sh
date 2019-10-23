@@ -95,7 +95,10 @@ mkdir -p /usr/local/share/kbd/keymaps
 dumpkeys | head -1 | tee /usr/local/share/kbd/keymaps/personal.map
 echo keycode 58 = Control >> /usr/local/share/kbd/keymaps/personal.map
 loadkeys /usr/local/share/kbd/keymaps/personal.map
-echo KEYMAP=/usr/local/share/kbd/keymaps/personal.map >> /etc/vconsole.conf
+cat << EOF > /etc/vconsole.conf
+FONT=latarcyrheb-sun32
+KEYMAP=/usr/local/share/kbd/keymaps/personal.map
+EOF
 { set +x; } 2>/dev/null
 
 echo '>>> Setup touchpad'
